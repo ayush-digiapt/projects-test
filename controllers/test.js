@@ -19,6 +19,11 @@ console.log("inside the create");
         queryStatement1="insert into users(first_name, last_name, email, is_archived, created, updated)  values('"+req.body.first_name+"', '"+req.body.last_name+"', '"+req.body.email+"',0,now(),now())";
      // queryStatement1="insert into users(first_name, last_name, email, is_archived, created, updated)  values('ayush','ranka','abhklkl@gmail.com',0,now(),now())"; 
         connection.query(queryStatement1,function (err,result1){
+            if (!err) {
+                callback(null,result1);
+            } else {
+                callback(err);
+            }
            // console.log("query");
 
             // if(err)
@@ -36,7 +41,7 @@ console.log("inside the create");
             //     console.log("users created");
             //   //  res.status(201).send("user created");
             //     }
-            callback(null,result1)
+          //  callback(null,result1)
             
                 
             // }
@@ -57,10 +62,16 @@ console.log("inside the create");
                   //  res.status(201).send("users is created");
 
                 }
+                
                 console.log("task2");
                // connection = db.getDbConnection();
                 queryStatement2="select user_id from users where email = '"+req.body.email+"'";
                 connection.query(queryStatement2,function(err,result2){
+                    if (!err) {
+                        callback(null,result2);
+                    } else {
+                        callback(err);
+                    }
                    // var id= result2;
                     //console.log(id);
                     // if(err)
@@ -80,7 +91,7 @@ console.log("inside the create");
                     // }
                     //callback(null,result2);
                     // console.log(err);
-                    callback(null,result2)
+                   // callback(null,result2)
                  });
                 
                },
@@ -96,13 +107,14 @@ console.log("inside the create");
 
 
                 //res.status(200).send(id);
-                
-            }
+            }  
+            
             console.log("task3");
             console.log(result2);
           // var result2arr = result2;
           var result2=result2[0].user_id
           console.log("user_id is "+result2);
+        
          // console.log(Object.values(object1));
          //  var result2=  JSON.parse(JSON.stringify(result2))
             // console.log(result2);
@@ -110,7 +122,12 @@ console.log("inside the create");
             queryStatement3="insert into addresses(address_line_1, address_line_2, city, state, user_id, is_archived, created, updated) values('"+req.body.address_line_1+"', '"+req.body.address_line_2+"', '"+req.body.city+"', '"+req.body.state+"',"+result2+",0,now(),now())";
             //queryStatement3="insert into addresses(address_line_1, address_line_2, city, state, users_id, is_archived, created, updated) values('abc', 'def', 'indore','mp' ,59,0,now(),now())";
             connection.query(queryStatement3,function(err,result3){
-                console.log("entering in q3");
+                //console.log("entering in q3");
+                if (!err) {
+                    callback(null,result3);
+                } else {
+                    callback(err);
+                }
                 
                 // if(err)
                 // {
@@ -123,7 +140,7 @@ console.log("inside the create");
                 //         res.status(201).send("addresses created");
                 //         }
                 // }
-                callback(null,result3);
+             //   callback(null,result3);
             //console.log(result3);
              });
             },
@@ -168,6 +185,11 @@ exports.details = function(req,res) {
     // connection = db.getDbConnection();
      queryStatement1="select user_id, first_name, last_name, email from users where is_archived=0 ";
      connection.query(queryStatement1,function(err,result1){
+        if (!err) {
+            callback(null,result1);
+        } else {
+            callback(err);
+        }
         // if(err)
         // {
         //     console.log(err);
@@ -186,7 +208,7 @@ exports.details = function(req,res) {
             
         // }
         
-        callback(null,result1);
+       // callback(null,result1);
      });
    // callback(null,'result1');
 
@@ -197,6 +219,11 @@ exports.details = function(req,res) {
         queryStatement2="select id, first_name, last_name, email, password from admins where is_archived=0";
       //  console.log("enter in query 2");
         connection.query(queryStatement2,function(err,result2){
+            if (!err) {
+                callback(null,result2);
+            } else {
+                callback(err);
+            }
             
            // console.log("enter in function");
         //    if(err)
@@ -215,7 +242,7 @@ exports.details = function(req,res) {
         //     }
                
         //    }
-        callback(null,result2);
+      //  callback(null,result2);
         });
        //callback(null,'result2');
    
@@ -223,7 +250,9 @@ exports.details = function(req,res) {
 ],
 function (err,result) {
     if (err) {
-      throw new Error(err);
+    //  throw new Error(err);
+      console.log(err);
+      res.status(400).send(err);
     } else {
       console.log('No error happened in any tasks, all tasks done!');  
      console.log(JSON.stringify(result));
